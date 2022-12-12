@@ -10,16 +10,24 @@ class AuthController extends Controller
 
     function login(Request $request)
     {
+
+        if($request->method() == "GET")
+    {
+        return view("login");
+    }
+
+
         $email = $request->input('email');
         $email = $request->input('password');
         $pengguna = Pengguna::query()
-        ->where('email', $email)
-        ->first();
+            ->where('email', $email)
+            ->first();
         if ($pengguna == null) {
             return redirect()
+            ->back()
             ->withErrors([
                 "msg" => "Email tidak ditemukan!"
-            ])->back();	
+            ]);	
         }  
         if (!Hash::check($password, $pengguna->password))
         {
@@ -38,7 +46,8 @@ class AuthController extends Controller
     
     function logout(Request $request)
     {
-        
+        session()->flush();
+        return redirect()->route("login");
     }
 
 }
