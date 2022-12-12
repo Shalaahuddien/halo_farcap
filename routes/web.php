@@ -16,7 +16,11 @@ use App\Http\controllers\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name("homepage")->middleware(["WithAuth"]);
 
-Route::any("/login", [AuthController::class, "login"])->name('login');
-Route::any("/logout", [AuthController::class, "logout"])->name('logout');
+Route::any("/login", [AuthController::class, "login"])
+    ->name('login')
+    ->middleware(["noAuth"]);
+Route::any("/logout", [AuthController::class, "logout"])
+    ->name('logout')
+    ->middleware(["WithAuth"]);
