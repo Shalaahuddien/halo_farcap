@@ -14,9 +14,9 @@ use App\Http\controllers\AuthController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name("homepage")->middleware(["WithAuth"]);
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name("homepage")->middleware(["WithAuth"]);
 
 Route::any("/login", [AuthController::class, "login"])
     ->name('login')
@@ -24,3 +24,17 @@ Route::any("/login", [AuthController::class, "login"])
 Route::any("/logout", [AuthController::class, "logout"])
     ->name('logout')
     ->middleware(["WithAuth"]);
+
+Route::get("/", function() {
+    return view("frontend.index");
+})->name("index");
+
+
+Route::get("/add", function() {
+    return view("frontend.add");
+})->name("add");
+
+
+Route::get("/detail/{id}", function() {
+    return view("frontend.detail");
+})->name("detail");
